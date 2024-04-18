@@ -1,0 +1,49 @@
+{
+  "project_info": {
+    "project_number": "951354216930",
+    "firebase_url": "https://bitwall-app-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "bitwall-app",
+    "storage_bucket": "bitwall-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:951354216930:android:6dfeb8e74d6f5747c969bb",
+        "android_client_info": {
+          "package_name": "com.example.bit_wall"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD-IYSevRaV1FDJF5pYhwHrIN7-JeK51cc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:951354216930:android:bd2342512048ba9cc969bb",
+        "android_client_info": {
+          "package_name": "com.quantumweft.bitwall"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD-IYSevRaV1FDJF5pYhwHrIN7-JeK51cc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
