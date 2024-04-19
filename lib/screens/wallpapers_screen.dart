@@ -16,8 +16,9 @@ class _WallpapersScreenState extends State<WallpapersScreen> {
   final FireStoreService fireStoreService = FireStoreService();
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
     return Container(
-      height: 1400,
+      height: height - 170,
       color: Theme.of(context).colorScheme.background,
       child: StreamBuilder<QuerySnapshot>(
         stream: fireStoreService.getWallpapers(),
