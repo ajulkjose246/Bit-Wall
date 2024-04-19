@@ -72,7 +72,7 @@ class _HomeScreenState extends State<HomeScreen> {
         style: TextStyle(fontWeight: FontWeight.w700),
       ),
       actions: [
-        _currentIndex != 3
+        _currentIndex != 2
             ? IconButton(
                 icon: const Icon(
                   Icons.search,
