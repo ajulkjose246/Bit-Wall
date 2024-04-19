@@ -1,12 +1,14 @@
 import 'package:bit_wall/firebase_options.dart';
 import 'package:bit_wall/providers/theme_provider.dart';
 import 'package:bit_wall/screens/home_screen.dart';
+import 'package:bit_wall/services/shared_preferences.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await SharedPreferencesService.init();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );

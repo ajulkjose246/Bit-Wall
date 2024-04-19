@@ -39,6 +39,7 @@ class _WallpapersScreenState extends State<WallpapersScreen> {
                 Map<String, dynamic> data =
                     document.data() as Map<String, dynamic>;
                 String docImage = data['image'];
+                String docID = document.id;
                 if (widget.searchText!.isEmpty) {
                   // display all data
                   return Padding(
@@ -48,8 +49,10 @@ class _WallpapersScreenState extends State<WallpapersScreen> {
                       child: GestureDetector(
                         onTap: () {
                           Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) =>
-                                ViewWallpaperScreen(wallpaperImage: docImage),
+                            builder: (context) => ViewWallpaperScreen(
+                              wallpaperImage: docImage,
+                              wallpaperId: docID,
+                            ),
                           ));
                         },
                         child: Image.network(
@@ -86,8 +89,10 @@ class _WallpapersScreenState extends State<WallpapersScreen> {
                       child: GestureDetector(
                         onTap: () {
                           Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) =>
-                                ViewWallpaperScreen(wallpaperImage: docImage),
+                            builder: (context) => ViewWallpaperScreen(
+                              wallpaperImage: docImage,
+                              wallpaperId: docID,
+                            ),
                           ));
                         },
                         child: Image.network(

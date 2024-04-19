@@ -19,7 +19,6 @@ class _HomeScreenState extends State<HomeScreen> {
       searchText: '',
     ),
     const Text("data2"),
-    const Text("data3"),
     const SettingsScreen()
   ];
 
@@ -69,16 +68,18 @@ class _HomeScreenState extends State<HomeScreen> {
         style: TextStyle(fontWeight: FontWeight.w700),
       ),
       actions: [
-        IconButton(
-          icon: const Icon(
-            Icons.search,
-          ),
-          onPressed: () {
-            setState(() {
-              searchBar ? searchBar = false : searchBar = true;
-            });
-          },
-        ),
+        _currentIndex != 3
+            ? IconButton(
+                icon: const Icon(
+                  Icons.search,
+                ),
+                onPressed: () {
+                  setState(() {
+                    searchBar ? searchBar = false : searchBar = true;
+                  });
+                },
+              )
+            : Icon(null)
       ],
     );
   }
@@ -96,15 +97,6 @@ class _HomeScreenState extends State<HomeScreen> {
             "Wallpapers",
           ),
           selectedColor: Colors.purple,
-        ),
-        SalomonBottomBarItem(
-          icon: const Icon(
-            Icons.collections_outlined,
-          ),
-          title: const Text(
-            "Categories",
-          ),
-          selectedColor: Colors.pink,
         ),
         SalomonBottomBarItem(
           icon: const Icon(

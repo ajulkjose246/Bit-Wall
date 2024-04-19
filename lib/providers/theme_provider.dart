@@ -1,6 +1,6 @@
+import 'package:bit_wall/services/shared_preferences.dart';
 import 'package:bit_wall/themes/theme.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class ThemeProvider extends ChangeNotifier {
   ThemeData _themeData = lightMode;
@@ -14,8 +14,8 @@ class ThemeProvider extends ChangeNotifier {
   }
 
   _loadTheme() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    int? themePreference = prefs.getInt(themePreferenceKey);
+    int? themePreference =
+        SharedPreferencesService().getInt(themePreferenceKey);
 
     if (themePreference != null && themePreference == 1) {
       _themeData = darkMode;
@@ -30,11 +30,10 @@ class ThemeProvider extends ChangeNotifier {
   }
 
   _saveTheme() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
     if (_themeData == darkMode) {
-      await prefs.setInt(themePreferenceKey, 1);
+      SharedPreferencesService().storeInt(themePreferenceKey, 1);
     } else {
-      await prefs.setInt(themePreferenceKey, 0);
+      SharedPreferencesService().storeInt(themePreferenceKey, 0);
     }
   }
 
