@@ -1,7 +1,5 @@
-import 'dart:convert';
-
 import 'package:adaptive_dialog/adaptive_dialog.dart';
-import 'package:bit_wall/services/shared_preferences.dart';
+import 'package:bit_wall/providers/favorite_provider.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
@@ -11,6 +9,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:provider/provider.dart';
 import 'package:restart_app/restart_app.dart';
 
 class ViewWallpaperScreen extends StatefulWidget {
@@ -125,15 +124,9 @@ class _ViewWallpaperScreenState extends State<ViewWallpaperScreen> {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
 
-    bool favoriteWall = false;
-
-    String? listData = SharedPreferencesService().getString("favoriteList");
-    List<String> favoriteItems = [];
-
-    if (listData != null) {
-      favoriteItems = json.decode(listData).cast<String>();
-      favoriteWall = favoriteItems.contains(widget.wallpaperId);
-    }
+    final favoriteNotifier = Provider.of<FavoriteNotifier>(context);
+    bool favoriteWall =
+        favoriteNotifier.favoriteItems.contains(widget.wallpaperId);
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
       floatingActionButton: FloatingActionButton(
@@ -301,33 +294,7 @@ class _ViewWallpaperScreenState extends State<ViewWallpaperScreen> {
                         const Spacer(),
                         GestureDetector(
                           onTap: () async {
-                            String? listData = await SharedPreferencesService()
-                                .getString("favoriteList");
-                            List<String> favoriteItems = [];
-
-                            if (listData != null) {
-                              favoriteItems =
-                                  json.decode(listData).cast<String>();
-                            }
-
-                            if (!favoriteItems.contains(widget.wallpaperId)) {
-                              favoriteItems.add(widget.wallpaperId);
-                              setState(() {
-                                favoriteWall = true;
-                              });
-                            } else {
-                              favoriteItems.remove(widget.wallpaperId);
-                              setState(() {
-                                favoriteWall = false;
-                              });
-                            }
-
-                            await SharedPreferencesService().storeString(
-                              'favoriteList',
-                              jsonEncode(favoriteItems),
-                            );
-
-                            print(favoriteItems);
+                            favoriteNotifier.toggleFavorite(widget.wallpaperId);
                           },
                           child: Row(
                             children: [

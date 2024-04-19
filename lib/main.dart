@@ -1,4 +1,5 @@
 import 'package:bit_wall/firebase_options.dart';
+import 'package:bit_wall/providers/favorite_provider.dart';
 import 'package:bit_wall/providers/theme_provider.dart';
 import 'package:bit_wall/screens/home_screen.dart';
 import 'package:bit_wall/services/shared_preferences.dart';
@@ -12,10 +13,16 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(ChangeNotifierProvider(
-    create: (context) => ThemeProvider(),
-    child: const MyApp(),
-  ));
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => ThemeProvider()),
+        ChangeNotifierProvider(
+            create: (context) => FavoriteNotifier()..loadFavorites()),
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {

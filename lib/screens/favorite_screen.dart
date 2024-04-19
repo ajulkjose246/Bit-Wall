@@ -1,21 +1,25 @@
+import 'package:bit_wall/providers/favorite_provider.dart';
 import 'package:bit_wall/screens/view_wallpaper.dart';
 import 'package:bit_wall/services/firestore.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:provider/provider.dart';
 
-class WallpapersScreen extends StatefulWidget {
+class FavoriteScreen extends StatefulWidget {
   final String? searchText;
-  const WallpapersScreen({super.key, this.searchText});
+  const FavoriteScreen({super.key, this.searchText});
 
   @override
-  State<WallpapersScreen> createState() => _WallpapersScreenState();
+  State<FavoriteScreen> createState() => _FavoriteScreenState();
 }
 
-class _WallpapersScreenState extends State<WallpapersScreen> {
+class _FavoriteScreenState extends State<FavoriteScreen> {
   final FireStoreService fireStoreService = FireStoreService();
   @override
   Widget build(BuildContext context) {
+    final favoriteNotifier = Provider.of<FavoriteNotifier>(context);
+    List<String> favoriteItems = favoriteNotifier.favoriteItems;
     return Container(
       height: 1400,
       color: Theme.of(context).colorScheme.background,
@@ -24,6 +28,11 @@ class _WallpapersScreenState extends State<WallpapersScreen> {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             List wallpapersList = snapshot.data!.docs;
+
+            // Filter wallpapersList to only include favorite items
+            wallpapersList
+                .retainWhere((document) => favoriteItems.contains(document.id));
+
             // Display
             return MasonryGridView.builder(
               itemCount: wallpapersList.length,
@@ -33,14 +42,9 @@ class _WallpapersScreenState extends State<WallpapersScreen> {
               itemBuilder: (context, index) {
                 // get each document
                 DocumentSnapshot document = wallpapersList[index];
-                // String docID = document.id;
-                // get data from each deocument
-                Map<String, dynamic> data =
-                    document.data() as Map<String, dynamic>;
-                String docImage = data['image'];
+                String docImage = document['image'];
                 String docID = document.id;
                 if (widget.searchText!.isEmpty) {
-                  // display all data
                   return Padding(
                     padding: const EdgeInsets.all(5),
                     child: ClipRRect(
@@ -77,7 +81,7 @@ class _WallpapersScreenState extends State<WallpapersScreen> {
                     ),
                   );
                 }
-                if (data['categorys']
+                if (document['categorys']
                     .toString()
                     .toLowerCase()
                     .contains(widget.searchText!.toLowerCase())) {

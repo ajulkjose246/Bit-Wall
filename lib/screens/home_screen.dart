@@ -1,3 +1,4 @@
+import 'package:bit_wall/screens/favorite_screen.dart';
 import 'package:bit_wall/screens/settings_screen.dart';
 import 'package:bit_wall/screens/wallpapers_screen.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +19,9 @@ class _HomeScreenState extends State<HomeScreen> {
     const WallpapersScreen(
       searchText: '',
     ),
-    const Text("data2"),
+    const FavoriteScreen(
+      searchText: '',
+    ),
     const SettingsScreen()
   ];
 
@@ -43,6 +46,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       onChanged: (value) {
                         setState(() {
                           _homePages[0] = WallpapersScreen(searchText: value);
+                          _homePages[1] = FavoriteScreen(searchText: value);
                         });
                       },
                     ),
