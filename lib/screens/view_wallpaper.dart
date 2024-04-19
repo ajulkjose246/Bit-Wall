@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:dio/dio.dart';
@@ -8,6 +10,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:restart_app/restart_app.dart';
 
 class ViewWallpaperScreen extends StatefulWidget {
   final String wallpaperImage;
@@ -19,6 +22,8 @@ class ViewWallpaperScreen extends StatefulWidget {
 
 class _ViewWallpaperScreenState extends State<ViewWallpaperScreen> {
   static const platform = MethodChannel("com.flutter.epic/epic");
+
+  bool isWallpapersetting = false;
 
   _save() async {
     bool status;
@@ -39,7 +44,6 @@ class _ViewWallpaperScreenState extends State<ViewWallpaperScreen> {
 
       final result =
           await ImageGallerySaver.saveImage(Uint8List.fromList(response.data));
-
       return result;
     } else {
       // Handle denied or restricted status
@@ -69,6 +73,7 @@ class _ViewWallpaperScreenState extends State<ViewWallpaperScreen> {
 
   // function to save the image in local/ temp memory
   Future _download(var type) async {
+    isWallpapersetting = true;
     Dio dio = Dio();
     try {
       var dir = await getTemporaryDirectory();
@@ -78,6 +83,14 @@ class _ViewWallpaperScreenState extends State<ViewWallpaperScreen> {
         var progress;
         setState(() {
           progress = (rec / total) * 100;
+          if (progress < 0) {
+            Fluttertoast.showToast(
+                    msg:
+                        "It seems like there was an issue. Please use the download option and set the wallpaper from the gallery")
+                .then((value) => Future.delayed(const Duration(seconds: 5), () {
+                      Restart.restartApp(webOrigin: '/');
+                    }));
+          }
           // ignore: avoid_print
           print(progress);
         });
@@ -91,6 +104,7 @@ class _ViewWallpaperScreenState extends State<ViewWallpaperScreen> {
       await platform.invokeMethod("setWall", "wallpix.jpeg $type");
       setState(() {
         // ignore: avoid_print
+        isWallpapersetting = false;
         print("Wallpaper Set Sucessfully");
         Fluttertoast.showToast(
           msg: "Applying",
@@ -106,6 +120,7 @@ class _ViewWallpaperScreenState extends State<ViewWallpaperScreen> {
 
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
       floatingActionButton: FloatingActionButton(
@@ -128,162 +143,182 @@ class _ViewWallpaperScreenState extends State<ViewWallpaperScreen> {
             ),
           ),
           Positioned(
-              // width: width,
-              left: 20,
-              right: 20,
-              bottom: 20,
-              child: Align(
-                alignment: Alignment.bottomCenter,
-                child: Padding(
-                  padding: const EdgeInsets.all(10),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.grey.withOpacity(0.5),
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(20),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Spacer(),
-                          GestureDetector(
-                            onTap: () async {
-                              // ignore: avoid_print
-                              print("object");
-                              var datas = await _save();
-                              if (datas['isSuccess']) {
-                                Fluttertoast.showToast(
-                                    msg: "Wallpaper Saved Successfully");
-                              }
-                              // ignore: avoid_print
-                              print(datas);
-                            },
-                            child: const Row(
-                              children: [
-                                Icon(
-                                  Icons.download_sharp,
-                                  color: Colors.white,
-                                ),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                Text(
-                                  "Download",
-                                  style: TextStyle(color: Colors.white),
-                                )
-                              ],
-                            ),
+            // width: width,
+            left: 20,
+            right: 20,
+            bottom: 20,
+            child: Align(
+              alignment: Alignment.bottomCenter,
+              child: Padding(
+                padding: const EdgeInsets.all(10),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.grey.withOpacity(0.5),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(20),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Spacer(),
+                        GestureDetector(
+                          onTap: () async {
+                            isWallpapersetting = true;
+                            // ignore: avoid_print
+                            print("object");
+                            var datas = await _save();
+                            if (datas['isSuccess']) {
+                              isWallpapersetting = false;
+                              Fluttertoast.showToast(
+                                  msg: "Wallpaper Saved Successfully");
+                            }
+                            // ignore: avoid_print
+                            print(datas);
+                          },
+                          child: Row(
+                            children: [
+                              Icon(
+                                Icons.download_sharp,
+                                color: Colors.white,
+                                size: width * 0.04,
+                              ),
+                              SizedBox(
+                                width: width * 0.01,
+                              ),
+                              Text(
+                                "Download",
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: width * 0.03),
+                              )
+                            ],
                           ),
-                          const Spacer(),
-                          GestureDetector(
-                            onTap: () async {
-                              final result = await showConfirmationDialog<int>(
-                                context: context,
-                                title: 'Apply',
-                                actions: [
-                                  AlertDialogAction(
-                                    label: 'Set Home Screen',
-                                    textStyle: TextStyle(
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .inversePrimary),
-                                    key: 1,
-                                  ),
-                                  AlertDialogAction(
-                                    label: 'Set Lock Screen',
-                                    textStyle: TextStyle(
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .inversePrimary),
-                                    key: 2,
-                                  ),
-                                  AlertDialogAction(
-                                    label: 'Set Both',
-                                    textStyle: TextStyle(
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .inversePrimary),
-                                    key: 3,
-                                  ),
-                                ],
-                                builder: (context, child) => Theme(
-                                  data: ThemeData(
-                                    textButtonTheme: TextButtonThemeData(
-                                      style: TextButton.styleFrom(
-                                          foregroundColor: Theme.of(context)
-                                              .colorScheme
-                                              .inversePrimary,
-                                          disabledForegroundColor:
-                                              Theme.of(context)
-                                                  .colorScheme
-                                                  .inversePrimary),
-                                    ),
-                                    cupertinoOverrideTheme:
-                                        const CupertinoThemeData(
-                                      primaryColor: Colors.purple,
-                                    ),
-                                    dialogBackgroundColor: Theme.of(context)
-                                        .colorScheme
-                                        .background,
-                                    textTheme: TextTheme(
-                                      titleLarge: TextStyle(
-                                        color: Theme.of(context)
+                        ),
+                        const Spacer(),
+                        GestureDetector(
+                          onTap: () async {
+                            final result = await showConfirmationDialog<int>(
+                              context: context,
+                              title: 'Apply',
+                              actions: [
+                                AlertDialogAction(
+                                  label: 'Set Home Screen',
+                                  textStyle: TextStyle(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .inversePrimary),
+                                  key: 1,
+                                ),
+                                AlertDialogAction(
+                                  label: 'Set Lock Screen',
+                                  textStyle: TextStyle(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .inversePrimary),
+                                  key: 2,
+                                ),
+                                AlertDialogAction(
+                                  label: 'Set Both',
+                                  textStyle: TextStyle(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .inversePrimary),
+                                  key: 3,
+                                ),
+                              ],
+                              builder: (context, child) => Theme(
+                                data: ThemeData(
+                                  textButtonTheme: TextButtonThemeData(
+                                    style: TextButton.styleFrom(
+                                        foregroundColor: Theme.of(context)
                                             .colorScheme
                                             .inversePrimary,
-                                      ),
+                                        disabledForegroundColor:
+                                            Theme.of(context)
+                                                .colorScheme
+                                                .inversePrimary),
+                                  ),
+                                  cupertinoOverrideTheme:
+                                      const CupertinoThemeData(
+                                    primaryColor: Colors.purple,
+                                  ),
+                                  dialogBackgroundColor:
+                                      Theme.of(context).colorScheme.background,
+                                  textTheme: TextTheme(
+                                    titleLarge: TextStyle(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .inversePrimary,
                                     ),
                                   ),
-                                  child: child,
                                 ),
-                              );
-                              if (result == 1) {
-                                _download("home");
-                              } else if (result == 2) {
-                                _download("lock");
-                              } else if (result == 3) {
-                                _download("both");
-                              }
-                              // ignore: avoid_print
-                              print(result);
-                            },
-                            child: const Row(
-                              children: [
-                                Icon(Icons.download_done_outlined,
-                                    color: Colors.white),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                Text(
-                                  "Apply",
-                                  style: TextStyle(color: Colors.white),
-                                )
-                              ],
-                            ),
+                                child: child,
+                              ),
+                            );
+                            if (result == 1) {
+                              _download("home");
+                            } else if (result == 2) {
+                              _download("lock");
+                            } else if (result == 3) {
+                              _download("both");
+                            }
+                            // ignore: avoid_print
+                            print(result);
+                          },
+                          child: Row(
+                            children: [
+                              Icon(
+                                Icons.download_done_outlined,
+                                color: Colors.white,
+                                size: width * 0.04,
+                              ),
+                              SizedBox(
+                                width: width * 0.01,
+                              ),
+                              Text(
+                                "Apply",
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: width * 0.03),
+                              )
+                            ],
                           ),
-                          const Spacer(),
-                          GestureDetector(
-                            child: const Row(
-                              children: [
-                                Icon(Icons.favorite_border,
-                                    color: Colors.white),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                Text(
-                                  "Favorite",
-                                  style: TextStyle(color: Colors.white),
-                                )
-                              ],
-                            ),
+                        ),
+                        const Spacer(),
+                        GestureDetector(
+                          child: Row(
+                            children: [
+                              Icon(
+                                Icons.favorite_border,
+                                color: Colors.white,
+                                size: width * 0.04,
+                              ),
+                              SizedBox(
+                                width: width * 0.01,
+                              ),
+                              Text(
+                                "Favorite",
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: width * 0.03),
+                              )
+                            ],
                           ),
-                          const Spacer(),
-                        ],
-                      ),
+                        ),
+                        const Spacer(),
+                      ],
                     ),
                   ),
                 ),
-              ))
+              ),
+            ),
+          ),
+          isWallpapersetting
+              ? const Center(
+                  child: CircularProgressIndicator(),
+                )
+              : SizedBox()
         ],
       ),
     );

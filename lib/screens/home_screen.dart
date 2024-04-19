@@ -13,8 +13,11 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   var _currentIndex = 0;
 
+  bool searchBar = false;
   final List _homePages = [
-    const WallpapersScreen(),
+    const WallpapersScreen(
+      searchText: '',
+    ),
     const Text("data2"),
     const Text("data3"),
     const SettingsScreen()
@@ -27,7 +30,28 @@ class _HomeScreenState extends State<HomeScreen> {
       backgroundColor: Theme.of(context).colorScheme.background,
       body: Padding(
         padding: const EdgeInsets.all(8),
-        child: _homePages.elementAt(_currentIndex),
+        child: ListView(
+          children: [
+            searchBar
+                ? Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: TextField(
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                      ),
+                      onChanged: (value) {
+                        setState(() {
+                          _homePages[0] = WallpapersScreen(searchText: value);
+                        });
+                      },
+                    ),
+                  )
+                : const SizedBox(),
+            _homePages.elementAt(_currentIndex),
+          ],
+        ),
       ),
       bottomNavigationBar: bottomNavBar(),
     );
@@ -49,7 +73,11 @@ class _HomeScreenState extends State<HomeScreen> {
           icon: const Icon(
             Icons.search,
           ),
-          onPressed: () {},
+          onPressed: () {
+            setState(() {
+              searchBar ? searchBar = false : searchBar = true;
+            });
+          },
         ),
       ],
     );
