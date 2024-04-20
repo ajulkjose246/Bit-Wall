@@ -1,6 +1,6 @@
 # Bit-Wall: A Dynamic Wallpaper Application
 
-<img src="[link_to_logo.png](https://firebasestorage.googleapis.com/v0/b/perosnal-website-5831b.appspot.com/o/Projects%2FImages%2Fbit-wall.png?alt=media&token=6c9c8ce0-8254-416d-a129-88742fe04957)" alt="Bit-Wall Logo" width="200"/>
+<img src="https://firebasestorage.googleapis.com/v0/b/perosnal-website-5831b.appspot.com/o/Projects%2FImages%2Fbit-wall.png?alt=media&token=6c9c8ce0-8254-416d-a129-88742fe04957" alt="Bit-Wall Logo" width="200"/>
 
 Bit-Wall is an innovative Android application designed to personalize mobile devices with a vibrant collection of wallpapers. Leveraging the power of Firebase Firestore, Bit-Wall offers a seamless and interactive experience for users to browse, select, and apply wallpapers directly from a cloud-based gallery.
 
