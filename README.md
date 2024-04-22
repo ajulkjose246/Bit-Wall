@@ -8,11 +8,11 @@ Bit-Wall is an innovative Android application designed to personalize mobile dev
 
 <div style="display: flex; justify-content: space-between;">
 
-<img src="https://firebasestorage.googleapis.com/v0/b/github-files-akj.appspot.com/o/Imgaes%2FWhatsApp%20Image%202024-04-22%20at%2008.07.23_e5d63742.jpg?alt=media&token=722e44d3-29c1-4f1e-ab1d-92c90a024fbe" alt="Bit-Wall Home Screen" width="200"/>
-<img src="https://firebasestorage.googleapis.com/v0/b/github-files-akj.appspot.com/o/Imgaes%2FWhatsApp%20Image%202024-04-22%20at%2008.07.26_5e0dd1e4.jpg?alt=media&token=593d7346-9933-4e0e-ada1-bb0ae2dfcb4b" alt="Bit-Wall Wallpaper Screen" width="200"/>
-<img src="https://firebasestorage.googleapis.com/v0/b/github-files-akj.appspot.com/o/Imgaes%2FWhatsApp%20Image%202024-04-22%20at%2008.07.27_5293f204.jpg?alt=media&token=91b3e2e4-4070-42b3-9c81-c2b4049c8355" alt="Bit-Wall Like Screen" width="200"/>
+<img src="https://firebasestorage.googleapis.com/v0/b/github-files-akj.appspot.com/o/Imgaes%2FBit-Wall%2FWhatsApp%20Image%202024-04-22%20at%2008.07.23_e5d63742.jpg?alt=media&token=e1acf28b-aa3c-461a-91c5-1554883c7638" alt="Bit-Wall Home Screen" width="200"/>
+<img src="https://firebasestorage.googleapis.com/v0/b/github-files-akj.appspot.com/o/Imgaes%2FBit-Wall%2FWhatsApp%20Image%202024-04-22%20at%2008.07.26_5e0dd1e4.jpg?alt=media&token=0b6b8b00-3fbb-4b94-b8fa-34135ea70e87" alt="Bit-Wall Wallpaper Screen" width="200"/>
+<img src="https://firebasestorage.googleapis.com/v0/b/github-files-akj.appspot.com/o/Imgaes%2FBit-Wall%2FWhatsApp%20Image%202024-04-22%20at%2008.07.27_5293f204.jpg?alt=media&token=01f0d268-9afa-4bf9-ab3c-08620b4a44b8" alt="Bit-Wall Like Screen" width="200"/>
 <img src="https://firebasestorage.googleapis.com/v0/b/github-files-akj.appspot.com/o/Imgaes%2FWhatsApp%20Image%202024-04-22%20at%2008.07.27_e5d63742.jpg?alt=media&token=755fac2a-1cfb-461c-9063-49c51580a025" alt="Bit-Wall Settings Screen" width="200"/>
-<img src="https://firebasestorage.googleapis.com/v0/b/github-files-akj.appspot.com/o/Imgaes%2FWhatsApp%20Image%202024-04-22%20at%2008.07.28_f1d8a08e.jpg?alt=media&token=65022889-268c-482a-aac2-dc1ed584b08f" alt="Bit-Wall App Info Screen" width="200"/>
+<img src="https://firebasestorage.googleapis.com/v0/b/github-files-akj.appspot.com/o/Imgaes%2FBit-Wall%2FWhatsApp%20Image%202024-04-22%20at%2008.07.28_f1d8a08e.jpg?alt=media&token=6017ba95-b835-4493-9108-0be63a6aeb2c" alt="Bit-Wall App Info Screen" width="200"/>
 
 </div>
 
