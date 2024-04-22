@@ -15,8 +15,9 @@ Bit-Wall is an innovative Android application designed to personalize mobile dev
 <img src="https://firebasestorage.googleapis.com/v0/b/github-files-akj.appspot.com/o/Imgaes%2FBit-Wall%2FWhatsApp%20Image%202024-04-22%20at%2008.07.28_f1d8a08e.jpg?alt=media&token=6017ba95-b835-4493-9108-0be63a6aeb2c" alt="Bit-Wall App Info Screen" width="200"/>
 
 </div>
+
 <!-- Download All Button -->
-# Bit-Wall: Download
+## Bit-Wall: Download
 
 <a href="https://drive.google.com/file/d/1CKuAotcD5cqgeTt4ZkS-R4eclR7KJhIU/view?usp=sharing" target="_blank" download style="display: block; margin-top: 20px; padding: 10px 20px; background-color: #007bff; color: #fff; text-align: center; text-decoration: none; border-radius: 5px; cursor: pointer;">
     Download App
